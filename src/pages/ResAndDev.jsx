@@ -10,7 +10,7 @@ const ResAndDev = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
+    <div className="flex justify-center items-center h-screen">
       <div className="bg-white shadow-lg rounded-lg p-6 flex items-center space-x-4">
         <span className="text-gray-700 font-medium">Time:</span>
         <input
