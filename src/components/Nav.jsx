@@ -7,16 +7,16 @@ const Nav = () => {
   const [showLogoutPopup, setShowLogoutPopup] = useState(false);
 
   // Function to handle logout (can be customized as per your logic)
-  const LogoutPopUp = () => {
-    localStorage.removeItem("auth");
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('data');
+  // const LogoutPopUp = () => {
+  //   localStorage.removeItem("auth");
+  //   localStorage.removeItem('authToken');
+  //   localStorage.removeItem('data');
 
   
-    setShowLogoutPopup(false);
+  //   setShowLogoutPopup(false);
   
-    window.location.replace('https://newlogin.bc-pl.com/');
-  };
+  //   window.location.replace('https://newlogin.bc-pl.com/');
+  // };
 
   return (
     <>
