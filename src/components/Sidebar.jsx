@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   return (
-    <div className="border-t-2">
+    <div className="border-t-2 h-screen">
       {/* Sidebar */}
       <aside
-        className="w-32 md:block h-full bg-sky-100 shadow-md transition-all duration-300"
+        className="w-32 md:block bg-sky-100 shadow-md transition-all duration-300 h-screen"
         style={{ zIndex: 1000 }}
       >
         <div className="flex flex-col items-center py-3">
