@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-import logo from "../assets/images/Outlook-2kob3y0x.png";
 import logo2 from "../assets/images/img.jpeg";
 
 const ResAndDev = () => {
@@ -9,6 +9,29 @@ const ResAndDev = () => {
   const [currentTime, setCurrentTime] = useState(
     new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
   );
+  const [imageData, setImageData] = useState([]);
+
+  const apiUrl = process.env.REACT_APP_IP
+
+  // Function to fetch data from a dummy API
+  const fetchApiData = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/get_project_data/`);
+      console.log(response.data.images);
+      setImageData(response.data.images);
+    } catch (error) {
+      console.error("Error fetching API data:", error);
+    }
+  };
+
+  // Fetch API data every minute
+  useEffect(() => {
+    fetchApiData(); // Initial data fetch
+    const interval = setInterval(() => {
+      fetchApiData(); // Fetch data every 60 seconds
+    }, 60000); // 60,000 milliseconds = 1 minute
+    return () => clearInterval(interval); // Cleanup interval on unmount
+  }, []);
 
   // Update the current time every minute
   useEffect(() => {
@@ -24,6 +47,17 @@ const ResAndDev = () => {
     console.log("From Time:", fromTime);
     console.log("To Time:", toTime);
   };
+  
+ 
+
+  // Get the last image from the imageData array
+  const lastImage = imageData.length > 0 ? imageData[imageData.length - 1] : null;
+  console.log(lastImage);
+  
+  // Get all other images except the last one
+  const otherImages = imageData.slice(-5, -1);
+  console.log(otherImages);
+  
 
   return (
     <div className="flex flex-wrap items-start h-full p-4 w-full space-y-4">
@@ -54,25 +88,29 @@ const ResAndDev = () => {
 
       {/* Large Images Section */}
       <div className="flex w-full justify-center items-start space-x-4">
-        {/* Left Image */}
+        {/* Left Large Image */}
         <div className="relative flex flex-col items-center">
-          <img
-            src={logo}
-            alt="Logo"
-            className="w-[650px] h-[400px] border-4 shadow-2xl rounded-lg"
-          />
+          {lastImage ? (
+            <img
+              src={`${apiUrl}${lastImage}`}
+              alt="Large Image"
+              className="w-[650px] h-[400px] border-4 shadow-2xl rounded-lg"
+            />
+          ) : (
+            <div className="w-[650px] h-[400px] border-4 shadow-2xl rounded-lg bg-gray-300"></div>
+          )}
           <div className="mt-2 px-4 py-1 border border-gray-400 rounded-md text-gray-700 bg-gray-100">
             {currentTime}
           </div>
           {/* Small Images Section */}
           <div className="absolute top-full left-0 mt-4 flex flex-wrap gap-2">
-            {[logo, logo, logo, logo].map((img, index) => (
+            {otherImages.map((img, index) => (
               <div
                 key={index}
-                className="flex flex-col items-center w-36 h-28 border-2  rounded-lg overflow-hidden shadow-md"
+                className="flex flex-col items-center w-36 h-28 border-2 rounded-lg overflow-hidden shadow-md"
               >
                 <img
-                  src={img}
+                  src={`${apiUrl}${img}`}
                   alt={`Example ${index + 1}`}
                   className="w-full h-20 object-cover"
                 />
