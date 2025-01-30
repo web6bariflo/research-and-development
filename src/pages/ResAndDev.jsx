@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+import logo1 from "../assets/images/pond.png";
 import logo2 from "../assets/images/img.jpeg";
+import logo3 from "../assets/images/Outlook-2kob3y0x.png"
 
 const ResAndDev = () => {
   const [fromTime, setFromTime] = useState("");
@@ -10,7 +12,6 @@ const ResAndDev = () => {
     new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
   );
   const [imageData, setImageData] = useState([]);
-  const [refresh, setRefresh] = useState(false); // State to force re-render
 
   const apiUrl = process.env.REACT_APP_IP;
 
@@ -25,18 +26,16 @@ const ResAndDev = () => {
     }
   };
 
-  // Fetch API data initially and every minute
   useEffect(() => {
     fetchApiData();
-  }, [refresh]); // Depend on refresh state to trigger re-fetch
+  }, []);
 
-  // Update the current time every minute and trigger refresh
+  // Update the current time every minute
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime(
         new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
       );
-      setRefresh((prev) => !prev); // Toggle refresh state
     }, 60000); // Update every minute
 
     return () => clearInterval(interval);
@@ -86,27 +85,38 @@ const ResAndDev = () => {
       <div className="flex w-full justify-center items-start space-x-4">
         {/* Left Large Image */}
         <div className="relative flex flex-col items-center">
-          {lastImage ? (
+          {/* {lastImage ? (
             <img
-              src={`${apiUrl}${lastImage}`}
+              // src={`${apiUrl}${lastImage}`}
+              src={logo1}
               alt="Large Image"
               className="w-[650px] h-[400px] border-4 shadow-2xl rounded-lg"
             />
           ) : (
             <div className="w-[650px] h-[400px] border-4 shadow-2xl rounded-lg bg-gray-300"></div>
-          )}
+          )} */}
+
+
+          <img
+            src={logo1}
+            alt="Large Image"
+            className="w-[650px] h-[400px] border-4 shadow-2xl rounded-lg"
+          />
+
           <div className="mt-2 px-4 py-1 border border-gray-400 rounded-md text-gray-700 bg-gray-100">
             {currentTime}
           </div>
           {/* Small Images Section */}
           <div className="absolute top-full left-0 mt-4 flex flex-wrap gap-2">
-            {otherImages.map((img, index) => (
+            {/* {otherImages.map((img, index) => ( */}
+            {[logo3,logo3,logo3,logo3].map((img, index) => (
               <div
                 key={index}
                 className="flex flex-col items-center w-36 h-28 border-2 rounded-lg overflow-hidden shadow-md"
               >
                 <img
-                  src={`${apiUrl}${img}`}
+                  // src={`${apiUrl}${img}`}
+                  src={img}
                   alt={`Example ${index + 1}`}
                   className="w-full h-20 object-cover"
                 />
