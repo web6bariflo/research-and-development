@@ -98,7 +98,7 @@ const ResAndDev = () => {
 
 
           <img
-            src={logo1}
+            src={logo3}
             alt="Large Image"
             className="w-[650px] h-[400px] border-4 shadow-2xl rounded-lg"
           />
