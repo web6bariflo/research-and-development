@@ -10,10 +10,11 @@ const ResAndDev = () => {
     new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
   );
   const [imageData, setImageData] = useState([]);
+  const [refresh, setRefresh] = useState(false); // State to force re-render
 
-  const apiUrl = process.env.REACT_APP_IP
+  const apiUrl = process.env.REACT_APP_IP;
 
-  // Function to fetch data from a dummy API
+  // Function to fetch data from API
   const fetchApiData = async () => {
     try {
       const response = await axios.get(`${apiUrl}/get_project_data/`);
@@ -24,22 +25,20 @@ const ResAndDev = () => {
     }
   };
 
-  // Fetch API data every minute
+  // Fetch API data initially and every minute
   useEffect(() => {
-    fetchApiData(); // Initial data fetch
-    const interval = setInterval(() => {
-      fetchApiData(); // Fetch data every 60 seconds
-    }, 60000); // 60,000 milliseconds = 1 minute
-    return () => clearInterval(interval); // Cleanup interval on unmount
-  }, []);
+    fetchApiData();
+  }, [refresh]); // Depend on refresh state to trigger re-fetch
 
-  // Update the current time every minute
+  // Update the current time every minute and trigger refresh
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime(
         new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
       );
+      setRefresh((prev) => !prev); // Toggle refresh state
     }, 60000); // Update every minute
+
     return () => clearInterval(interval);
   }, []);
 
@@ -47,17 +46,14 @@ const ResAndDev = () => {
     console.log("From Time:", fromTime);
     console.log("To Time:", toTime);
   };
-  
- 
 
   // Get the last image from the imageData array
   const lastImage = imageData.length > 0 ? imageData[imageData.length - 1] : null;
   console.log(lastImage);
-  
+
   // Get all other images except the last one
   const otherImages = imageData.slice(-5, -1);
   console.log(otherImages);
-  
 
   return (
     <div className="flex flex-wrap items-start h-full p-4 w-full space-y-4">
