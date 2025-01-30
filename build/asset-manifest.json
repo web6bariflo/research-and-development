@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/static/css/main.87b2933d.css",
+    "main.js": "/static/js/main.fcefe9ab.js",
+    "static/js/488.76f5e53e.chunk.js": "/static/js/488.76f5e53e.chunk.js",
+    "static/media/Bariflo logo on-01.png": "/static/media/Bariflo logo on-01.dbfd3790945ecedf737a.png",
+    "static/media/img.jpeg": "/static/media/img.a699c5a8cf187a9d6423.jpeg",
+    "index.html": "/index.html",
+    "main.87b2933d.css.map": "/static/css/main.87b2933d.css.map",
+    "main.fcefe9ab.js.map": "/static/js/main.fcefe9ab.js.map",
+    "488.76f5e53e.chunk.js.map": "/static/js/488.76f5e53e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.87b2933d.css",
+    "static/js/main.fcefe9ab.js"
+  ]
+}
