@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 
-import logo1 from "../assets/images/pond.png";
 import logo2 from "../assets/images/img.jpeg";
 import logo3 from "../assets/images/Outlook-2kob3y0x.png"
 
@@ -14,21 +12,42 @@ const ResAndDev = () => {
   const [imageData, setImageData] = useState([]);
 
   const apiUrl = process.env.REACT_APP_IP;
+  console.log(apiUrl);
 
-  // Function to fetch data from API
-  const fetchApiData = async () => {
-    try {
-      const response = await axios.get(`${apiUrl}/get_project_data/`);
-      console.log(response.data.images);
-      setImageData(response.data.images);
-    } catch (error) {
-      console.error("Error fetching API data:", error);
-    }
-  };
+
 
   useEffect(() => {
-    fetchApiData();
+    const socket = new WebSocket("ws://10.0.41.221:8000/ws/thermal-images/");
+
+    socket.onopen = async () => {
+      console.log("WebSocket Connected");
+    };
+
+    socket.onmessage = async (event) => {
+      try {
+        const data = await JSON.parse(event.data); // Assuming the server sends JSON data
+        console.log("WebSocket Message Received:", data);
+        setImageData(data)
+
+      } catch (error) {
+        console.error("Error parsing WebSocket message:", error);
+      }
+    };
+
+    socket.onerror = async (error) => {
+      console.error("WebSocket Error:", error);
+    };
+
+    socket.onclose = async () => {
+      console.log("WebSocket Disconnected");
+    };
+
+    return () => {
+      socket.close(); // Cleanup on unmount
+    };
   }, []);
+
+
 
   // Update the current time every minute
   useEffect(() => {
@@ -85,23 +104,15 @@ const ResAndDev = () => {
       <div className="flex w-full justify-center items-start space-x-4">
         {/* Left Large Image */}
         <div className="relative flex flex-col items-center">
-          {/* {lastImage ? (
+          {lastImage ? (
             <img
-              // src={`${apiUrl}${lastImage}`}
-              src={logo1}
-              alt="Large Image"
+              src={`data:image/jpeg;base64,${lastImage.thermal_image}`} // Add prefix
+              alt="Thermal Image"
               className="w-[650px] h-[400px] border-4 shadow-2xl rounded-lg"
             />
           ) : (
             <div className="w-[650px] h-[400px] border-4 shadow-2xl rounded-lg bg-gray-300"></div>
-          )} */}
-
-
-          <img
-            src={logo3}
-            alt="Large Image"
-            className="w-[650px] h-[400px] border-4 shadow-2xl rounded-lg"
-          />
+          )}
 
           <div className="mt-2 px-4 py-1 border border-gray-400 rounded-md text-gray-700 bg-gray-100">
             {currentTime}
@@ -109,7 +120,7 @@ const ResAndDev = () => {
           {/* Small Images Section */}
           <div className="absolute top-full left-0 mt-4 flex flex-wrap gap-2">
             {/* {otherImages.map((img, index) => ( */}
-            {[logo3,logo3,logo3,logo3].map((img, index) => (
+            {[logo3, logo3, logo3, logo3].map((img, index) => (
               <div
                 key={index}
                 className="flex flex-col items-center w-36 h-28 border-2 rounded-lg overflow-hidden shadow-md"
