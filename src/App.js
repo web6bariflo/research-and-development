@@ -19,8 +19,8 @@ function App() {
           {/* Main Content */}
           <div className="flex-grow p-4">
             <Routes>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/res-and-dev" element={<ResAndDev />} />
+              {/* <Route path="/" element={<LandingPage />} /> */}
+              <Route path="/" element={<ResAndDev />} />
             </Routes>
           </div>
         </div>
